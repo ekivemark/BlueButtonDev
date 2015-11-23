@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block pretitle %}Manage Your Account{% endblock %}
+{% block extra_head %}
+{% endblock %}
+{% block breadcrumbs %}
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li class="active">My Dashboard</li>
+        </ul>
+    </div>
+{% endblock %}
+{% block pagename %}Developer Dashboard{% endblock %}
+{% block content %}
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 well">
+                    {% include 'accounts/include/personal_profile.html' %}
+
+                </div>
+            </div>
+         </div>
+    </div>
+
+
+
+    <div class="row clearfix">
+
+        <div class="col-md-12 column">
+            <!--- Template is in bbonfhiruser/templates/developer --->
+            <p>Close your Account (All your device credentials will be
+                deleted if you close your {{ settings.APPLICATION_TITLE }} account).
+            </p>
+            {#  TODO: Link to Delete Account process  #}
+        </div>
+    </div>
+
+
+{% endblock %}
