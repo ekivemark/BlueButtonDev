@@ -32,6 +32,8 @@ from accounts.utils import (cell_email,
 
 from apps.bluebutton.cms_parser_utilities import string_to_ordereddict
 
+from appmgmt.models import Organization
+
 
 def login(request):
     """
@@ -150,8 +152,16 @@ def manage_account(request):
               "in accounts.views.manage_account")
     user = request.user
     mfa_address = cell_email(user.mobile, user.carrier)
+    try:
+        org = Organization.objects.filter(owner=user)
+    except Organization.DoesNotExist:
+        org = {}
+
+    if settings.DEBUG:
+        print("Organization", org)
 
     context = {"user": user,
+               "org": org,
                "mfa_address": mfa_address,
                }
 

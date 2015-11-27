@@ -20,6 +20,10 @@ urlpatterns = patterns('',
                            name='whatsnew'),
                        url(r'^accounts/',
                            include('accounts.urls', namespace='accounts')),
+
+                       url(r'^appmanagement/',
+                           include('appmgmt.urls', namespace='appmgmt')),
+
                        # API Entry point
                        # v1api is referenced inside apps.api.urls as v1
 
