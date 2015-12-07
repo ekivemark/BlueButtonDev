@@ -106,6 +106,8 @@ def home_index(request):
         print(settings.APPLICATION_TITLE, "in accounts.views.other.home_index")
 
     context = {}
+    context.update({'organization': request.user.organization})
+
     return render_to_response('index.html',
                               RequestContext(request, context, ))
 

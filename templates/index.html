@@ -25,7 +25,8 @@
                     {% if user.is_authenticated %}
                         <a href="{% url 'accounts:manage_account' %}"
                             class="btn btn-primary btn-large">
-                            <i class="fa fa-lock fa-lg"></i>  Manage Your Account</a>
+                            <i class="fa fa-lock fa-lg"></i>  Manage Your {% if organization != None %}
+                            {{ organization }} {% endif %}Account</a>
 
                     {% else %}
                         <div class="col-lg-12">
