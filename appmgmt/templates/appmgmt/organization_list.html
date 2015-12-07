@@ -68,22 +68,22 @@
                 {% endif %}
                 <tr>
                     <td>
-                        Developers:
+                        Developers for this organization:
                     </td>
                     <td>
-                        {{ organization.developers }}
+                        Add Team member
                     </td>
                 </tr>
+                {% for developer in extra_content.developer_list %}
                 <tr>
                     <td></td>
                     <td>
-                        {% for developer in organization.developers.all %}
-                            {% for user in developer %}
-                                email:{{ user.email }}<br/>
-                            {% endfor %}
-                        {% endfor %}
+                        {{ developer.member }} [{{ developer.role }}]
                     </td>
                 </tr>
+                {% endfor %}
+                </tr>
+
                 <tr>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>

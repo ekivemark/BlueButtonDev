@@ -1,120 +1,122 @@
 {% extends "base.html" %}
 {% load i18n %}
-{% block pretitle %}Add Your Applications{% endblock %}
-{% block extra_head %}{% endblock %}
 
-{% block pagename %}My Applications{% endblock %}
-{% block breadcrumbs %}
-    <div class="container">
-        <ul class="breadcrumb">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'accounts:manage_account' %}">Dashboard</a></li>
-            <li><a href="{% url 'appmgmt:organization_view' %}">Organization</a></li>
-            <li class="active">My Applications</li>
-        </ul>
-    </div>
-
-{% endblock %}
 {% block content %}
+<div class="col-lg-12">
+    <div class="col-lg-6"> <a href="{% url "appmgmt:application_create" %}"
+                    class="btn btn-success"><i class="fa fa-plus-square-o fa-1x"></i>
+                {% trans 'Add Application' %}</a>
+    </div>
+    {% for application in my_apps %}
+        <div class="container col-lg-11 well">
 
-
-    {% for application in object_list %}
-        <div class="container col-lg-12 well">
-
-            <h2><img src="{{ MEDIA_URL }}{{ application.logo }}"
+            <h4><img src="{{ MEDIA_URL }}{{ application.logo }}"
                      width="50" height="50"> {{ application.name }}&nbsp;
             <a href="{% url "appmgmt:application_update" pk=application.id %}"
                     class="btn btn-success">
                     <i class="fa fa-pencil-square-o fa-1x"></i>
                 {% trans 'Edit' %}</a>
-            </h2>
-            <table>
+
+                <a href="{% url "appmgmt:application_view" pk=application.id %}"
+                            class="btn btn-success">
+                            <i class="fa fa-eye fa-1x"></i>
+                            {% trans 'View' %}</a>
+
+                <a href="{% url "appmgmt:application_update_secret" pk=application.id %}"
+                            class="btn btn-success">
+                            <i class="fa fa-refresh fa-1x"></i>
+                            {% trans 'Refresh Id and Secret' %}</a>
+
+                <a href="{% url "appmgmt:application_delete" pk=application.id %}"
+                            class="btn btn-danger">
+                            <i class="fa fa-trash fa-1x"></i>
+                            {% trans 'Delete' %}</a>
+
+
+
+            </h4>
+            <div class="table-bordered table-responsive">
+            <table class="table">
                 <tr>
-                    <td>
-                        Owner:
-                    </td>
-                    <td>
-                        {{ request.user }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        About this application:&nbsp;&nbsp;
-                    </td>
-                    <td>
-                        {{ application.about }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Terms Agreed:
-                    </td>
-                    <td>
-                        {% if application.agree %}YES&nbsp;
+
+                    <table class="table table-condensed ">
+                        <thead>
+                            <tr>
+                                <td>About</td>
+                                <td>Owner</td>
+                                <td>Terms Agreed</td>
+                                <td>Redirect URL(s)</td>
+                                <td>Type</td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>{{ application.about }}</td>
+                            <td>{{ application.owner }}</td>
+                            <td>
+                                {% if application.agree %}YES&nbsp;
                 (Version: {%  if application.agree_version %}:
                     {{ application.agree_date }}{% endif %})
                         {% else %}no
                         {% endif %}
-                    </td>
+                            </td>
+                             <td>
+                                {{ application.redirect_uris }}
+                            </td>
+                            <td>
+                                {{ application.client_type }}&nbsp;
+                                {% if application.authorization_grant_type != "" %}[{{ application.authorization_grant_type }}]{% endif %}
+                            </td>
+                        </tr>
+                    </table>
+
                 </tr>
+
+            </table>
+            <table class="table-responsive">
                 <tr>
-                    <td>
-                        Redirect URL(s):
+                    <td class="col-lg-2">
+                        Client Id:
                     </td>
-                    <td>
-                        {{ application.redirect_uris }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>&nbsp;</td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
-                        <a href="{% url "appmgmt:application_update_secret" pk=application.id %}"
-                    class="btn btn-success">
-                    <i class="fa fa-pencil-square-o fa-1x"></i>
-                {% trans 'Update Id and Secret' %}</a>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
-                        Client_Id:
-                    </td>
-                    <td>
+                    <td class="col-lg-8">
                         <div
-style="width:660px;
+style="width:480px;
 min-height:19px;
 height:auto!important;
 color:darkred; padding: 1%; background-color: ivory;
-font-size: 18px;
+font-size: 14px;
 font-weight: normal;
 word-wrap: break-word;
 text-align: left" >{{ application.client_id }}
                         </div>
                     </td>
+                    <td class="col-lg-2">
+
+                    </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td class="col-lg-2">
                         Client Secret:
                     </td>
-                    <td>
+                    <td class="col-lg-8">
                         <div
-style="width:600px;
+style="width:480px;
 min-height:19px;
 height:auto!important;
 color:darkgreen; padding: 1%; background-color: ivory;
-font-size: 18px;
+font-size: 14px;
 font-weight: normal;
 word-wrap: break-word;
 text-align: left" >{{ application.client_secret }}
                         </div>
                     </td>
+                    <td class="col-lg-3">
+
+                    </td>
                 </tr>
             </table>
+            </div>
 
         </div>
     {%  endfor %}
-
+</div>
 {% endblock %}

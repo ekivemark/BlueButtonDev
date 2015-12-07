@@ -3,6 +3,7 @@ from registration.backends.default.urls import *
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.core.urlresolvers import reverse_lazy
+from django.conf.urls.static import static
 
 from accounts.forms.other import RegistrationFormUserTOSAndEmail
 
@@ -64,13 +65,9 @@ urlpatterns = patterns('',
                        url(r'^admin/doc/',
                            include('django.contrib.admindocs.urls')),
                        )
-# DONE: Extend user model to enable organization
-# TODO: Organization Approval (Test - Automatic)
-# TODO: Organization Approval (Prod - Manual)
-# DONE: Create Master User for Organization
-# DONE: Create Standard User via master user
-# DONE: Manage Developer Accounts
-# TODO: Reassign Application Ownership within organization
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
 # TODO: Delete accounts account
 # TODO: Issue Application Key
 # TODO: Manage Application Key

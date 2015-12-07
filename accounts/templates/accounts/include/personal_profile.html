@@ -1,11 +1,11 @@
 {% load i18n %}
 {% if user.is_authenticated %}
     <div class="container-fluid">
-        <div class="row-fluid">
-            <div class="col-lg-10">
-                 <h2>My Profile</h2>
+        <div class="row-fluid col-lg 10">
+            <div class="col-lg-9">
+                 <h4>My Profile</h4>
             </div>
-             <div class="col-lg-2 align-right">
+             <div class="col-lg-2">
                 <a href="{% url "accounts:user_edit" %}"
                    class="btn btn-success">
                     <i class="fa fa-pencil-square-o fa-1x"></i> {% trans 'Edit' %}</a>
@@ -54,6 +54,16 @@
                         </a>
                     </p>
 
+                </div>
+                {% else %}
+                <div class="list-group-item">
+                <h4 class="list-group-item-heading">Mobile Phone:</h4>
+                <p>
+                    <a href="{% url "accounts:user_edit" %}">
+                        {% trans 'Edit' %}</a> your profile to add a
+                    mobile phone and activate additional
+                    security options for your account.
+                </p>
                 </div>
                 {% endif %}
             </div>

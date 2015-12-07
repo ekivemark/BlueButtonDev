@@ -88,10 +88,19 @@ def BaseTrust(request, requester_email,
     # make api call with dictionary
 
     if bundle.upper() == "TEST":
-        api_call['endpoint'] = settings.URL_PRE + request.get_host() + api_call['endpoint']
         if settings.DEBUG:
-            print("updated ", bundle.upper(),
+            print("URL_PRE:", settings.URL_PRE,
+                  " get_host():", request.get_host(),
+                  "updated ", bundle.upper(),
                   " endpoint to ", api_call['endpoint'])
+
+        if settings.URL_PRE + request.get_host() in api_call['endpoint']:
+            # We have a full url in api_call['endpoint']
+            pass
+        else:
+            # We are missing the http(s)://[host] in api_call['endpoint']
+            # so add as a prefix
+            api_call['endpoint'] = settings.URL_PRE + request.get_host() + api_call['endpoint']
 
     Base_Trust = {
                  "requested_by": requester_email,

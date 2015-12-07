@@ -15,7 +15,8 @@ from django.core.urlresolvers import reverse
 from django.http import (HttpResponse,
                          JsonResponse,
                          HttpResponseRedirect)
-from django.shortcuts import render
+from django.shortcuts import (render,
+                              render_to_response)
 from django.template import RequestContext
 from django.views.generic import (DetailView,
                                   UpdateView)
@@ -26,6 +27,20 @@ from appmgmt.models import (Organization, BBApplication)
 from appmgmt.forms import OrganizationForm
 
 # We need an app management set of transactions here
+
+def home_index(request):
+    # Show Home Page for appmgmt
+
+    DEBUG = settings.DEBUG_SETTINGS
+
+    if DEBUG:
+        print(settings.APPLICATION_TITLE, "in appmgmt.views.main.home_index")
+
+    context = {}
+    return render_to_response('index.html',
+                              RequestContext(request, context, ))
+
+
 
 # User detail view
 class UserDetailView(DetailView):

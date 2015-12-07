@@ -36,6 +36,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 from accounts.utils import CARRIER_SELECTION, cell_email, send_sms_pin
 
+from appmgmt.models import Organization
+
 # Extending Application with OAuth Toolkit
 from oauth2_provider.models import AbstractApplication
 
@@ -45,9 +47,13 @@ from oauth2_provider.models import AbstractApplication
 
 USERTYPE_CHOICES = (('owner', 'Account Owner'))
 
-USER_ROLE_CHOICES = (('primary', 'Account Owner'),
-                     ('backup', 'Backup Owner'),
-                     ('none', 'NONE'),
+# 1 = Top level account access
+# 2 = Backup level account access
+# 9 or Standard Team member access
+USER_ROLE_CHOICES = (('1', 'Account Owner'),
+                     ('2', 'Backup Owner'),
+                     ('9', 'Team Member'),
+                     ('-', 'None' ),
                      )
 
 # DONE: Add Activity Notification Choices
@@ -126,6 +132,9 @@ class User(AbstractBaseUser):
                                   blank=True)
     last_name = models.CharField(max_length=50,
                                  blank=True)
+    organization = models.ForeignKey(Organization,
+                                     blank=True,
+                                     null=True)
     medicare_connected = models.BooleanField(default=False)
     medicare_verified = models.BooleanField(default=False)
     # Done: modify joined to date_joined in user model
@@ -167,6 +176,11 @@ class User(AbstractBaseUser):
     def get_email(self):
         # return the email address
         return self.email
+
+    def get_email_domain(self):
+        # return the email domain eg. @gmail.com
+        print("email domain:", self.email.split('@')[1].rstrip())
+        return self.email.split('@')[1].rstrip()
 
     def get_real_name(self):
         # Get first and last name

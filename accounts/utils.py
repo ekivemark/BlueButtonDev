@@ -431,3 +431,22 @@ def send_activity_message(request,
 
     return result
 
+def User_From_Request(request_user=None):
+    # Receive request.user
+    # Get user model
+    # get user key fieldname
+    # return user
+
+    if request_user == None:
+        return None
+
+    else:
+        User = get_user_model()
+        access_field = settings.USERNAME_FIELD
+
+        u = User.objects.get(**{access_field:request_user})
+        if settings.DEBUG:
+            print("User:", u)
+
+        return u
+

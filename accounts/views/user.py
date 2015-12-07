@@ -86,8 +86,8 @@ def user_edit(request):
 
     u = User.objects.get(**{access_field: request.user})
     if settings.DEBUG:
-        print("User returned:", u, "[", u.first_name, " ", u.last_name,
-              "]")
+        print("User returned:", u, "[", u.first_name, u.last_name,
+              "] @", u.get_email_domain())
 
     form = User_EditForm(data=request.POST or None, instance=u)
 

@@ -58,8 +58,10 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'first_name', 'last_name',
-                  'is_active', 'is_admin', 'is_staff', 'notify_activity')
+        fields = ('username', 'email', 'password', 'organization',
+                  'first_name', 'last_name',
+                  'is_active', 'is_admin', 'is_staff',
+                  'notify_activity')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -76,10 +78,12 @@ class UserAdmin(UserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_admin')
+    list_display = ('username', 'email', 'first_name', 'last_name',
+                    'organization', 'is_admin')
     list_filter = ('is_admin',)
     fieldsets = (
-        (None, {'fields': ('username', 'email', 'password')}),
+        (None, {'fields': ('username', 'email',
+                           'password','organization' )}),
         ('Personal info', {'fields': ('first_name',
                                       'last_name',
                                       'mobile',
@@ -92,7 +96,6 @@ class UserAdmin(UserAdmin):
 
     # Done: Need to make phone number formatting more user friendly
     # Currently requires +Country code
-
 
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.

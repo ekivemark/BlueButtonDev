@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block pretitle %}{% if application.name == None %}Adding Application
-{% else %}Editing {{ application.name }}{% endif %}{% endblock %}
+{% block pretitle %}{% if application.name == None %}Viewing Application
+{% else %}Viewing {{ application.name }}{% endif %}{% endblock %}
 {% block extra_head %}
 
 {% endblock %}
 
-{% block pagename%}{% if application.name == None %}Add Application{% else %}{% if application.logo %}<img src="{{ MEDIA_URL }}{{ application.logo }}" width="50" height="50">{% endif %} Editing {{ application.name }}{% endif %}{% endblock %}
+{% block pagename%}{% if application.name == None %}View Application{% else %}{% if application.logo %}<img src="{{ MEDIA_URL }}{{ application.logo }}" width="50" height="50">{% endif %} Viewing {{ application.name }}{% endif %}{% endblock %}
 {% block breadcrumbs %}
     <div class="container">
         <ul class="breadcrumb">
@@ -14,7 +14,7 @@
             <li><a href="{% url 'accounts:manage_account' %}">Dashboard</a></li>
             <li><a href="{% url 'appmgmt:manage_applications' %}" >Application</a></li>
 
-            <li class="active">{% if application.name == None %}Add{% else %}Edit {% endif %}Application</li>
+            <li class="active">{% if application.name == None %}View{% else %}View {% endif %}Application</li>
         </ul>
     </div>
 
@@ -25,20 +25,27 @@
         <form method="post" action="" enctype="multipart/form-data" xmlns="http://www.w3.org/1999/html">
             {% csrf_token %}
             <table>
-                <tr>
-                    <td>
-                        {{ form.as_table }}
 
-                    </td>
                 <tr>
-                    <td>
-                        <input class="btn-success btn-lg" type="submit"
-                               value="Save"/>
-                    </td>
+                    <td>About</td>
+                    <td>{{ application.about }}</td>
+                </tr>
+
+                <tr>
+                    <td>Redirect URL(s)</td>
+                    <td>{{ application.redirect_uris }}</td>
+                </tr>
+                <tr>
+                    <td>Type:</td>
+                    <td>{{ application.client_type }}
+                        [{{ application.authorization_grant_type }}]</td>
+                </tr>
+
+                <tr>
                     <td>
                         <a href="{% url "appmgmt:manage_applications" %}"><input
-                                type="button" class="btn-danger"
-                                value="Cancel"/></a>
+                                type="button" class="btn-success btn-lg"
+                                value="Back"/></a>
                     </td>
                 </tr>
             </table>
@@ -51,13 +58,7 @@
             <tr>
                 <td>Terms Agreed:&nbsp;&nbsp;  </td>
                 <td>
-                    {% if application.agree %}YES&nbsp;
-                        (Version:
-                            {%  if application.agree_version %}:
-                        {{ application.agree_date }}
-                            {% endif %})
-                    {% else %}no
-                    {% endif %}
+                    {{ application.agree }} ({{ application.agree_version }}, {{ application.agree_date }})
                 </td>
             </tr>
             <tr>

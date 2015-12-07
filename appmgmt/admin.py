@@ -5,7 +5,9 @@ from django.contrib import admin
 
 from django.conf import settings
 from appmgmt.models import (BBApplication,
-                            Organization)
+                            Organization,
+                            Developer,
+                            )
 
 
 # class BBApplicationCreationForm(forms.ModelForm):
@@ -32,7 +34,8 @@ class BBApplicationAdmin(admin.ModelAdmin):
     """
 
     """
-    list_display = ('organization.name', 'domain', 'name' )
+    list_display = ('name','organization', 'owner',
+                    'client_type', 'authorization_grant_type' )
 
 
 class OrganizationAdmin(admin.ModelAdmin):
@@ -54,8 +57,33 @@ class OrganizationAdmin(admin.ModelAdmin):
 
         obj.save()
 
+
+class DeveloperAdmin(admin.ModelAdmin):
+    """
+
+    """
+    model = Developer
+
+    list_display = ('id', 'member', 'linked_user', 'role', 'organization' )
+
+class DeveloperCreationForm(forms.ModelForm):
+    class Meta:
+        model = Developer
+        fields = ( 'role', 'organization')
+
+
+class DeveloperUpdateForm(forms.ModelForm):
+    """
+    Developer Update Form
+    """
+
+    class Meta:
+        model = Developer
+
+        fields = ('role', 'organization')
+
 # admin.site.register(Account)
 
 admin.site.register(Organization, OrganizationAdmin)
-# admin.site.register(BBApplicationAdmin)
-
+admin.site.register(BBApplication, BBApplicationAdmin)
+admin.site.register(Developer, DeveloperAdmin)
