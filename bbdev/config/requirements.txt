@@ -7,7 +7,7 @@ chardet==2.3.0
 cryptography==1.0.2
 dicttoxml==1.6.6
 Django==1.8.3
-django-admin-bootstrapped==2.5.4
+django-adrequestsmin-bootstrapped==2.5.4
 django-bootstrap-form==3.2
 django-bootstrap3==6.1.0
 django-braces==1.8.0
@@ -50,7 +50,7 @@ pylint==1.4.4
 pyOpenSSL==0.15.1
 python-stdnum==1.1
 python3-ldap==0.9.8.4
-requests==2.7.0
+requests>=2.20.0
 robobrowser==0.5.3
 selenium==2.47.3
 shortuuid==0.4.2
